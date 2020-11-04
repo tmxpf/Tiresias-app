@@ -114,9 +114,29 @@
 // export default App;
 
 import React from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import axios from 'axios';
+import { StyleSheet, Text, View, Image, TextInput } from 'react-native';
 
 export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data:[]
+    };
+    this.test();
+  }
+
+  test() {
+    axios.get(`http://10.0.2.2:35680/hello`)
+      .then(res => {
+        const persons = res.data;
+        this.setState({
+          data:persons
+        });
+        console.log(persons);
+      });
+  };
+  
   render() {
     return (
       <View>
@@ -125,8 +145,10 @@ export default class App extends React.Component {
             style={{width: 50, height: 50}}
             source={{uri: 'https://facebook.github.io/react-native/img/tiny_logo.png'}}
           />
+         <TextInput/>
         </View>
         <Text>
+          {this.state.data}
           Now Loading...
         </Text>
       </View>
